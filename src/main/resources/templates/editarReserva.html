@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Editar Reserva | Gestión de Comedor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" th:href="@{/home}">☕ Gestión de Comedor</a>
+    <div class="d-flex gap-3">
+      <a class="nav-link text-white" th:href="@{/home}">Inicio</a>
+      <a class="nav-link text-white" th:href="@{/misReservas}">Mis Reservas</a>
+      <a class="nav-link text-white" th:href="@{/logout}">Salir</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="text-white m-0">Editar Reserva</h3>
+    <a class="btn btn-light" th:href="@{/misReservas}">Volver</a>
+  </div>
+
+  <div th:if="${msgError}" class="alert alert-danger" th:text="${msgError}"></div>
+
+  <div class="card card-soft p-4">
+    <form method="post" th:action="@{/reservas/actualizar}">
+      <input type="hidden" name="idReserva" th:value="${reserva.idReserva}" />
+
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label">Fecha</label>
+          <input type="date" class="form-control" name="fecha" required
+                 th:value="${reserva.fecha}" />
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label">Hora</label>
+          <select class="form-select" name="hora" required>
+            <option th:each="h : ${horas}" th:value="${h}" th:text="${h}"
+                    th:selected="${h == #temporals.format(reserva.hora,'HH:mm')}"
+            ></option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4 d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Actualizar</button>
+        <a class="btn btn-outline-secondary" th:href="@{/misReservas}">Cancelar</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="text-center mt-4 footer">© 2026 Gestión de Comedor</div>
+</div>
+</body>
+</html>
